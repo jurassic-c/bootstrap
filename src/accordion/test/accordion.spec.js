@@ -106,7 +106,7 @@ describe('accordion', function () {
     var scope, $compile;
     var element, groups;
     var findGroupLink = function (index) {
-      return groups.eq(index).find('a').eq(0);
+      return groups.eq(index).find('.accordion-toggle').eq(0);
     };
     var findGroupBody = function (index) {
       return groups.eq(index).find('.panel-collapse').eq(0);

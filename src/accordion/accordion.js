@@ -67,8 +67,11 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
       isDisabled: '=?'
     },
     controller: function() {
-      this.setHeading = function(element) {
+      this.setHeading = function(element, attr) {
         this.heading = element;
+      };
+      this.setAction = function(element, attr) {
+        this.action = element;
       };
     },
     link: function(scope, element, attrs, accordionCtrl) {
@@ -105,6 +108,26 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
       // so that it can be transcluded into the right place in the template
       // [The second parameter to transclude causes the elements to be cloned so that they work in ng-repeat]
       accordionGroupCtrl.setHeading(transclude(scope, function() {}));
+    }
+  };
+})
+
+// Use accordion-heading below an accordion-group to provide a heading containing HTML
+// <accordion-group>
+//   <accordion-heading>Heading containing HTML - <img src="..."></accordion-heading>
+// </accordion-group>
+.directive('accordionAction', function() {
+  return {
+    restrict: 'EA',
+    transclude: true,   // Grab the contents to be used as the heading
+    template: '',       // In effect remove this element!
+    replace: true,
+    require: '^accordionGroup',
+    link: function(scope, element, attr, accordionGroupCtrl, transclude) {
+      // Pass the heading to the accordion-group controller
+      // so that it can be transcluded into the right place in the template
+      // [The second parameter to transclude causes the elements to be cloned so that they work in ng-repeat]
+      accordionGroupCtrl.setAction(transclude(scope, function() {}));
     }
   };
 })
